@@ -1,33 +1,25 @@
-
+import { useState } from 'react';
 import { Box, Button, InputAdornment, Stack, TextField } from '@mui/material';
 import SignPic from '../../asset/images/signin.jpg'
 import { Bodytext, Headingtext, SubTitletext, Titletext } from '../../component/utils/Mytext';
 import { MYCOLOR } from '../../component/utils/MyColor';
 
-import { getDatabase, ref, set } from "firebase/database"
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 import { app } from "../../firebase"
 
-const db = getDatabase(app);
+
 const auth = getAuth(app);
 
 
 export default function SignIn() {
 
-    const putFirebasedb = () => {
-        set(ref(db, "users/"), {
-            id: 1,
-            name: "Avinash Singh",
-            age: 28,
-        });
-    }
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    const signupUser = () => {
-        createUserWithEmailAndPassword(
-            auth,
-            'avisingh@gmail.com',
-            "Avi123"
-        ).then((value) => console.log(value));
+    const signinUser = () => {
+        signInWithEmailAndPassword(auth, email, password)
+            .then((value) => console.log("Sign in Seccessfull :", value))
+            .catch((err) => console.error("Sign in Problem :", err));
     }
 
     return (
@@ -79,11 +71,10 @@ export default function SignIn() {
                             InputProps={{
                                 startAdornment: <InputAdornment position="start">+91</InputAdornment>,
                             }} />
-                        <TextField label='Email' variant='standard' fullWidth sx={{ marginBottom: '10px' }} />
-                        <TextField label='Password' variant='standard' fullWidth sx={{ marginBottom: '10px' }} />
+                        <TextField label='Email' value={email} onChange={(e) => setEmail(e.target.value)} variant='standard' fullWidth sx={{ marginBottom: '10px' }} />
+                        <TextField label='Password' value={password} onChange={(e) => setPassword(e.target.value)} variant='standard' fullWidth sx={{ marginBottom: '10px' }} />
 
-                        <Button onClick={putFirebasedb}>Submit</Button>
-                        <Button onClick={signupUser}>Create User</Button>
+                        <Button onClick={signinUser}>Create User</Button>
 
                     </Box>
 

@@ -4,7 +4,7 @@ import SignPic from '../../asset/images/signin.jpg'
 import { Bodytext, Headingtext, SubTitletext, Titletext } from '../../component/utils/Mytext';
 import { MYCOLOR } from '../../component/utils/MyColor';
 
-// import { getDatabase, ref, set } from "firebase/database"
+import { getDatabase, ref, set } from "firebase/database"
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
 import { app } from "../../firebase"
 import { useNavigate } from 'react-router-dom';
@@ -16,13 +16,13 @@ const auth = getAuth(app);
 export default function SignUp() {
     const navigate = useNavigate();
 
-    // const putFirebasedb = () => {
-    //     set(ref(db, "users/"), {
-    //         id: 1,
-    //         name: "Avinash Singh",
-    //         age: 28,
-    //     });
-    // }
+    const putFirebasedb = () => {
+        set(ref(db, "users/"), {
+            id: 1,
+            name: "Avinash Singh",
+            age: 28,
+        });
+    }
 
     const signupUser = () => {
         createUserWithEmailAndPassword(
@@ -86,7 +86,7 @@ export default function SignUp() {
                         <TextField label='Email' variant='standard' fullWidth sx={{ marginBottom: '10px' }} />
                         <TextField label='Password' variant='standard' fullWidth sx={{ marginBottom: '10px' }} />
 
-                        {/* <Button onClick={putFirebasedb}>Submit</Button> */}
+                        <Button onClick={putFirebasedb}>Submit</Button>
                         <Button onClick={signupUser}>Create User</Button>
 
                     </Box>
