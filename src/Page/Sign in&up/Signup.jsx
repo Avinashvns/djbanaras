@@ -5,12 +5,13 @@ import { Bodytext, Headingtext, SubTitletext, Titletext } from '../../component/
 import { MYCOLOR } from '../../component/utils/MyColor';
 
 import { getDatabase, ref, set } from "firebase/database"
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
+import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 import { app } from "../../firebase"
 import { useNavigate } from 'react-router-dom';
 
 const db = getDatabase(app);
 const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
 
 
 export default function SignUp() {
@@ -31,6 +32,13 @@ export default function SignUp() {
             "Avi123"
         ).then((value) => console.log(value));
         navigate('/signin');
+    }
+
+    const signupWithGoogle = () => {
+        signInWithPopup(auth, googleProvider)
+            .then((user) => console.log("User Created :", user))
+            .catch((err) => console.error("User Not Created :", err));
+
     }
 
     return (
@@ -86,6 +94,8 @@ export default function SignUp() {
                         <TextField label='Email' variant='standard' fullWidth sx={{ marginBottom: '10px' }} />
                         <TextField label='Password' variant='standard' fullWidth sx={{ marginBottom: '10px' }} />
 
+
+                        <Button onClick={signupWithGoogle}>Sign Up Google</Button>
                         <Button onClick={putFirebasedb}>Submit</Button>
                         <Button onClick={signupUser}>Create User</Button>
 
